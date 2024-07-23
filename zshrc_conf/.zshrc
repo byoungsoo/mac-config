@@ -1,3 +1,6 @@
+# Amazon Q pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+# Q pre block. Keep at the top of this file.
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -104,15 +107,48 @@ source $ZSH/oh-my-zsh.sh
 alias vi="vim"
 alias k="kubectl"
 
+alias mac_key="/Users/Shared/bin/userkeymapping_mackeyboard"
+alias win_key="/Users/Shared/bin/userkeymapping_windowkeyboard"
+
 #short path
-alias github_home="cd /Users/bys/workspace/bys/github"
-alias gitlab_home="cd /Users/bys/workspace/bys/code_repo/gitlab"
+alias github_home="cd /Users/bys/workspace/code_repo/github"
+alias gitlab_home="cd /Users/bys/workspace/code_repo/gitlab"
+alias codecommit_home="cd /Users/bys/workspace/code_repo/codecommit"
 alias ssh_home="cd /Users/bys/workspace/ssh"
-alias awsbys_home="cd /Users/bys/workspace/aws/bys"
 alias work_home="cd /Users/bys/workspace/work"
 alias case_home="cd /Users/bys/workspace/work/case"
 alias key_home="cd /Users/Shared/bin"
 alias util_home="cd /Users/bys/workspace/util"
+alias hire_home="cd /Users/bys/workspace/work/hiring"
 
+# short path of temp
+alias bastion_dev="ssh -i /Users/bys/workspace/aws_account/dev/bys-console.pem ec2-user@3.39.219.95"
+alias bastion_shared="ssh -i /Users/bys/workspace/aws_account/shared/bys-shared-console.pem ec2-user@43.200.234.20"
+
+#vscode
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 
+#kubernetes
+alias kd="kubectl describe"
+alias kl="kubectl logs"
+alias kg="kubectl get"
+alias kc="kubectl config"
+alias kcget="kubectl config get-contexts"
+alias kcuse="kubectl config use-context"
+alias kdel="kubectl delete"
+
+# rbenv
+export PATH=~/.rbenv/bin:$PATH
+eval "$(rbenv init -)"
+
+# Q post block. Keep at the bottom of this file.
+# aws-cli instance type
+function eniinfo() {
+  aws ec2 describe-instance-types --filters "Name=instance-type,Values=$1.*" --query "InstanceTypes[].{Type: InstanceType, MaxENI: NetworkInfo.MaximumNetworkInterfaces, IPv4addr: NetworkInfo.Ipv4AddressesPerInterface}" --output table
+}
+
+alias alwayson="sudo pmset -c disablesleep 1"
+alias alwaysoff="sudo pmset -c disablesleep 0"
+
+# Amazon Q post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
