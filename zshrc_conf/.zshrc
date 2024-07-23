@@ -122,8 +122,6 @@ alias util_home="cd /Users/bys/workspace/util"
 alias hire_home="cd /Users/bys/workspace/work/hiring"
 
 # short path of temp
-alias bastion_dev="ssh -i /Users/bys/workspace/aws_account/dev/bys-console.pem ec2-user@3.39.219.95"
-alias bastion_shared="ssh -i /Users/bys/workspace/aws_account/shared/bys-shared-console.pem ec2-user@43.200.234.20"
 
 #vscode
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
