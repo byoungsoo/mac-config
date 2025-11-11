@@ -105,7 +105,6 @@ source $ZSH/oh-my-zsh.sh
 
 #bys
 alias vi="vim"
-alias k="kubectl"
 
 alias mac_key="/Users/Shared/bin/userkeymapping_mackeyboard"
 alias win_key="/Users/Shared/bin/userkeymapping_windowkeyboard"
@@ -114,6 +113,8 @@ alias win_key="/Users/Shared/bin/userkeymapping_windowkeyboard"
 alias github_home="cd /Users/bys/workspace/code_repo/github"
 alias gitlab_home="cd /Users/bys/workspace/code_repo/gitlab"
 alias codecommit_home="cd /Users/bys/workspace/code_repo/codecommit"
+alias awscode_home="cd /Users/bys/workspace/code_repo/aws"
+alias brazil_home="cd /Users/bys/brazil"
 alias ssh_home="cd /Users/bys/workspace/ssh"
 alias work_home="cd /Users/bys/workspace/work"
 alias case_home="cd /Users/bys/workspace/work/case"
@@ -122,11 +123,14 @@ alias util_home="cd /Users/bys/workspace/util"
 alias hire_home="cd /Users/bys/workspace/work/hiring"
 
 # short path of temp
+alias bastion_dev="ssh -i /Users/bys/workspace/aws_account/dev/bys-console.pem ec2-user@3.39.219.95"
+alias bastion_shared="ssh -i /Users/bys/workspace/aws_account/shared/bys-shared-console.pem ec2-user@43.200.234.20"
 
 #vscode
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 
 #kubernetes
+alias k="kubectl"
 alias kd="kubectl describe"
 alias kl="kubectl logs"
 alias kg="kubectl get"
@@ -134,6 +138,10 @@ alias kc="kubectl config"
 alias kcget="kubectl config get-contexts"
 alias kcuse="kubectl config use-context"
 alias kdel="kubectl delete"
+alias krr="kubectl rollout restart"
+
+#terraform
+alias tf="terraform"
 
 # rbenv
 export PATH=~/.rbenv/bin:$PATH
@@ -148,5 +156,27 @@ function eniinfo() {
 alias alwayson="sudo pmset -c disablesleep 1"
 alias alwaysoff="sudo pmset -c disablesleep 0"
 
+export PATH=$PATH:$HOME/.toolbox/bin
+
+# aws caseinfo
+function caseinfo() {
+  curl -L --cookie ~/.midway/cookie --cookie-jar ~/.midway/cookie https://global.case-api.support.aws.a2z.com/v1/cases/$1 | jq '. | {"AccountId": .accountId, "CustomerName": .customerName, "ccList": .ccList, "CaseID": .caseId, "Subject": .subject, "Severity": .severity, "CreationDate": .creationDate, "LastUpdatedDate": .lastUpdatedDate, "CaseURL": "https://command-center.support.aws.a2z.com/case-console#/cases/'$1'"}'
+}
+
+function caseinfofull() {
+  curl -L --cookie ~/.midway/cookie --cookie-jar ~/.midway/cookie https://global.case-api.support.aws.a2z.com/v1/cases/$1 | jq '.'
+}
+
+source /Users/bys/.brazil_completion/zsh_completion
+
+
+# DNS Flush
+alias dnsflush="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+
+
+[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
